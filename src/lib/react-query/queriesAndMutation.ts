@@ -167,8 +167,8 @@ export const useGetPosts = () => {
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
     queryFn: getInfinitePost,
     getNextPageParam: (lastpage) => {
-      if (!lastpage && lastpage.documents.length === 0) return null;
-      const lastId = lastpage.documents[lastpage?.documents.length - 1]?.$id;
+      if (!lastpage && lastpage?.documents?.length === 0) return null;
+      const lastId = lastpage?.documents[lastpage?.documents.length - 1]?.$id;
       return lastId;
     },
   });

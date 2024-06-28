@@ -4,6 +4,7 @@ import { ID, ImageGravity, Query } from "appwrite";
 
 export async function createUserAccount(user: INewUser) {
   try {
+    // CREATING THE ACCOUNT
     const newAccount = await account.create(
       ID.unique(),
       user.email,
@@ -13,8 +14,10 @@ export async function createUserAccount(user: INewUser) {
 
     if (!newAccount) throw Error;
 
+    //GETTING THE DEFAULT AVATAR OF USER
     const avatarUrl = avatars.getInitials(user.name);
 
+    //SAVING THE USER TO THE DATABASE
     const newUser = await saveUserToDB({
       accountId: newAccount.$id,
       name: newAccount.name,
@@ -30,6 +33,7 @@ export async function createUserAccount(user: INewUser) {
   }
 }
 
+//SAVE USER TO THE DATABASE
 export async function saveUserToDB(user: {
   accountId: string;
   email: string;
@@ -51,6 +55,7 @@ export async function saveUserToDB(user: {
   }
 }
 
+//SIGN USER BY CREATING SESSION BY EMAIL AND PASS
 export async function SignInAccount(user: { email: string; password: string }) {
   try {
     const session = await account.createEmailPasswordSession(
@@ -63,6 +68,7 @@ export async function SignInAccount(user: { email: string; password: string }) {
   }
 }
 
+//SIGN OUT USER
 export async function SignOutAccount() {
   try {
     const session = account.deleteSession("current");
@@ -72,6 +78,7 @@ export async function SignOutAccount() {
   }
 }
 
+//GET CURRENT USER CREDENTIALS
 export async function getCurrentUser() {
   try {
     const currentAccount = await account.get();
