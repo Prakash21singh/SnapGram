@@ -402,24 +402,23 @@ export async function getInfinitRecentPosts({
   }
 }
 
-// export async function getInfiniteUsers({ pageParam }: { pageParam: string }) {
-//   let query = [Query.limit(3)];
+export async function getTopUsers(limit?: number) {
+  let query = [Query.orderDesc("$createdAt")];
 
-//   if (pageParam) {
-//     query.push(Query.cursorAfter(pageParam.toString()));
-//   }
+  if (limit) {
+    query.push(Query.limit(limit));
+  }
+  try {
+    const users = databases.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.userCollectionId,
+      query
+    );
 
-//   try {
-//     let users = databases.listDocuments(
-//       appWriteConfig.databaseId,
-//       appWriteConfig.userCollectionId,
-//       query
-//     );
+    if (!users) throw Error;
 
-//     if (!users) throw Error;
-
-//     return users;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+}
