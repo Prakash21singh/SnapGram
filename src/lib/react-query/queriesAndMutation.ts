@@ -12,6 +12,7 @@ import {
   deletePost,
   deleteSavedPost,
   getCurrentUser,
+  getInfinitRecentPosts,
   getInfinitePost,
   getPostById,
   getRecentPosts,
@@ -56,6 +57,18 @@ export const useGetRecentPosts = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
     queryFn: getRecentPosts,
+  });
+};
+
+export const useGetInfiniteRecentPosts = () => {
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEYS.GET_INFINITE_RECENTPOSTS],
+    queryFn: getInfinitRecentPosts,
+    getNextPageParam: (lastpage) => {
+      if (lastpage?.documents.length === 0 && !lastpage) return null;
+      let lastId = lastpage.documents[lastpage?.documents.length - 1]?.$id;
+      return lastId;
+    },
   });
 };
 
@@ -180,3 +193,15 @@ export const useSearchPosts = (searchTerm: string) => {
     enabled: !!searchTerm,
   });
 };
+
+// export const useGetUsers = () => {
+//   return useInfiniteQuery({
+//     queryKey: [QUERY_KEYS.GET_INFINITE_USERS],
+//     queryFn: getInfiniteUsers,
+//     getNextPageParam: (lastPage) => {
+//       if (lastPage?.documents.length === 0) return null;
+//       let lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
+//       return lastId;
+//     },
+//   });
+// };

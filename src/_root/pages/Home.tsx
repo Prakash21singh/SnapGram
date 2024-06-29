@@ -1,14 +1,22 @@
 import PostCard from "@/components/shared/PostCard";
-import { useGetRecentPosts } from "@/lib/react-query/queriesAndMutation";
+import { useGetInfiniteRecentPosts } from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
-import { Loader } from "lucide-react";
+import Loader from "@/components/shared/Loader";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 const Home = () => {
-  const {
+  let {
     data: posts,
     isPending: isPostLoading,
-    isError: isErrorPost,
-  } = useGetRecentPosts();
+    hasNextPage,
+    fetchNextPage,
+  } = useGetInfiniteRecentPosts();
+  let { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) fetchNextPage();
+  }, [inView]);
 
   return (
     <div className="flex flex-1">
@@ -18,11 +26,20 @@ const Home = () => {
           {isPostLoading && !posts ? (
             <Loader />
           ) : (
-            <ul className="flex flex-col flex-1 gap-9 w-full">
-              {posts?.documents.map((post: Models.Document) => (
-                <PostCard post={post} key={post.$id} />
-              ))}
-            </ul>
+            <>
+              <ul className="flex flex-col flex-1 gap-9 w-full">
+                {posts?.pages?.map((post) =>
+                  post?.documents.map((post, index) => (
+                    <PostCard post={post} key={`key-${index}`} />
+                  ))
+                )}
+              </ul>
+              {hasNextPage && (
+                <div ref={ref}>
+                  <Loader />
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
