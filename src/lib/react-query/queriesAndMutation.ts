@@ -16,6 +16,7 @@ import {
   getInfinitePost,
   getPostById,
   getRecentPosts,
+  getSavedPost,
   getSearchPost,
   getTopUsers,
   likePost,
@@ -36,6 +37,7 @@ export const useSignInAccount = () => {
       SignInAccount(user),
   });
 };
+
 export const useSignOutAccount = () => {
   return useMutation({
     mutationFn: SignOutAccount,
@@ -100,6 +102,14 @@ export const useLikePost = () => {
   });
 };
 
+//SAVED POST
+export const useGetSavedPost = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_SAVED_POST],
+    queryFn: () => getSavedPost(userId),
+  });
+};
+
 export const useSavePost = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -114,6 +124,9 @@ export const useSavePost = () => {
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_SAVED_POST],
       });
     },
   });
@@ -131,6 +144,9 @@ export const useDeleteSavedPost = () => {
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_SAVED_POST],
       });
     },
   });

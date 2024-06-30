@@ -16,6 +16,9 @@ export enum QUERY_KEYS {
   GET_FILE_PREVIEW = "getFilePreview",
   GET_INFINITE_RECENTPOSTS = "getInfiniteRecentPosts",
 
+  //SAVED POST
+  GET_SAVED_POST = "getSavedPost",
+
   //  SEARCH KEYS
   SEARCH_POSTS = "getSearchPosts",
 

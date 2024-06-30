@@ -18,8 +18,7 @@ const Home = () => {
     fetchNextPage,
   } = useGetInfiniteRecentPosts();
   let { ref, inView } = useInView();
-  let { data: users, isPending: isUsersLoading, isError } = useGetUsers(10);
-  console.log(users, "Tese ");
+  let { data: users, isPending: isUsersLoading } = useGetUsers(10);
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);

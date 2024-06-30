@@ -22,7 +22,6 @@ const Explore = () => {
     if (inView && !searchValue) fetchNextPage();
   }, [inView, searchValue]);
 
-  console.log(posts, "Explore");
   if (!posts) {
     return (
       <div className="flex-center w-full hh-full">

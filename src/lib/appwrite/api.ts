@@ -62,6 +62,7 @@ export async function SignInAccount(user: { email: string; password: string }) {
       user.email,
       user.password
     );
+    console.log(session);
     return session;
   } catch (error) {
     console.log(error);
@@ -305,6 +306,22 @@ export async function savePost(postId: string, userId: string) {
     console.log(error);
   }
 }
+
+// GET SAVED POST
+export async function getSavedPost(userId: string) {
+  try {
+    const savedPosts = await databases.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.saveCollectionId,
+      [Query.equal("user", userId)]
+    );
+
+    return savedPosts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function deleteSavedPost(savedRecordId: string) {
   try {
     const statusCode = await databases.deleteDocument(
