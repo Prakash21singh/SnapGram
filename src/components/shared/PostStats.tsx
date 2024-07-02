@@ -1,4 +1,3 @@
-import { deleteSavedPost } from "@/lib/appwrite/api";
 import {
   useDeleteSavedPost,
   useGetCurrentUser,

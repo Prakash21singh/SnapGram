@@ -1,6 +1,7 @@
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appWriteConfig, avatars, databases, storage } from "./config";
 import { ID, ImageGravity, Query } from "appwrite";
+import { QUERY_KEYS } from "../react-query/queryKeys";
 
 export async function createUserAccount(user: INewUser) {
   try {
@@ -62,10 +63,11 @@ export async function SignInAccount(user: { email: string; password: string }) {
       user.email,
       user.password
     );
-    console.log(session);
+
     return session;
   } catch (error) {
     console.log(error);
+    return error;
   }
 }
 
@@ -394,6 +396,22 @@ export async function getSearchPost(searchTerm: string) {
   }
 }
 
+export async function getUserPost(userId: string) {
+  try {
+    const posts = await databases.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.postCollectionId,
+      [Query.equal("creator", userId)]
+    );
+
+    if (!posts) throw Error;
+
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getInfinitRecentPosts({
   pageParam,
 }: {
@@ -406,7 +424,7 @@ export async function getInfinitRecentPosts({
   }
 
   try {
-    let recentPosts = databases.listDocuments(
+    let recentPosts = await databases.listDocuments(
       appWriteConfig.databaseId,
       appWriteConfig.postCollectionId,
       queries
@@ -426,7 +444,7 @@ export async function getTopUsers(limit?: number) {
     query.push(Query.limit(limit));
   }
   try {
-    const users = databases.listDocuments(
+    const users = await databases.listDocuments(
       appWriteConfig.databaseId,
       appWriteConfig.userCollectionId,
       query
@@ -435,6 +453,22 @@ export async function getTopUsers(limit?: number) {
     if (!users) throw Error;
 
     return users;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserLikedPost(userId: string) {
+  try {
+    const user = await databases.getDocument(
+      appWriteConfig.databaseId,
+      appWriteConfig.userCollectionId,
+      userId
+    );
+
+    if (!user) throw Error;
+
+    return user.liked;
   } catch (error) {
     console.log(error);
   }

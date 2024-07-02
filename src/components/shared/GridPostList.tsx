@@ -14,9 +14,11 @@ const GridPostList = ({
 }: GridPostListProps) => {
   const { user } = useUserContext();
   return (
-    <ul className="grid-container">
-      {posts.map((post, index) => (
-        <li key={post.$id} className="relative min-w-80 h-80">
+    <ul className="flex flex-wrap justify-center gap-3 items-start w-full">
+      {posts.map((post) => (
+        <li
+          key={post.$id}
+          className="relative w-[32%] min-w-[300px] h-[330px] flex-1">
           <Link to={`/posts/${post.$id}`} className="grid-post_link">
             <img
               src={post.imageUrl}

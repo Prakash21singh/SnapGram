@@ -19,12 +19,15 @@ import {
   getSavedPost,
   getSearchPost,
   getTopUsers,
+  getUserLikedPost,
+  getUserPost,
   likePost,
   savePost,
   updatePost,
 } from "../appwrite/api";
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { QUERY_KEYS } from "./queryKeys";
+import { Models } from "appwrite";
 
 export const useCreateUserAccount = () => {
   return useMutation({
@@ -66,8 +69,9 @@ export const useGetRecentPosts = () => {
 export const useGetInfiniteRecentPosts = () => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_RECENTPOSTS],
+    //@ts-ignore
     queryFn: getInfinitRecentPosts,
-    getNextPageParam: (lastpage) => {
+    getNextPageParam: (lastpage: Models.DocumentList<Models.Document>) => {
       if (lastpage?.documents.length === 0 && !lastpage) return null;
       let lastId = lastpage.documents[lastpage?.documents.length - 1]?.$id;
       return lastId;
@@ -97,6 +101,9 @@ export const useLikePost = () => {
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USER_LIKED_POST],
       });
     },
   });
@@ -195,14 +202,32 @@ export const useDeletePost = () => {
 export const useGetPosts = () => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+    //@ts-ignore
     queryFn: getInfinitePost,
-    getNextPageParam: (lastpage) => {
+    getNextPageParam: (lastpage: Models.DocumentList<Models.Document>) => {
+      //@ts-ignore
       if (!lastpage && lastpage?.documents?.length === 0) return null;
       const lastId = lastpage?.documents[lastpage?.documents.length - 1]?.$id;
       return lastId;
     },
   });
 };
+
+export const useGetUserPost = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS_POST],
+    //@ts-ignore
+    queryFn: () => getUserPost(userId),
+  });
+};
+
+export const useGetUserLikedPost = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_LIKED_POST],
+    queryFn: () => getUserLikedPost(userId),
+  });
+};
+
 export const useSearchPosts = (searchTerm: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],

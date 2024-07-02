@@ -41,7 +41,7 @@ const PostsDetails = () => {
                   </p>
                   <div className="flex flex-col justify-center items-start lg:flex-row lg:items-center  gap-2 text-light-3">
                     <p className="subtle-semibold lg:small-regular">
-                      {formatDateString(post?.$createdAt)}
+                      {formatDateString(post?.$createdAt || "")}
                     </p>
                     -
                     <p className="subtle-semibold lg:small-regular">

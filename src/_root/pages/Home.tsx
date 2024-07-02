@@ -34,7 +34,7 @@ const Home = () => {
             <>
               <ul className="flex flex-col flex-1 gap-9 w-full">
                 {posts?.pages?.map((post) =>
-                  post?.documents.map((post, index) => (
+                  post?.documents.map((post) => (
                     <PostCard post={post} key={`key-${ID.unique()}`} />
                   ))
                 )}
@@ -55,7 +55,7 @@ const Home = () => {
             {isUsersLoading ? (
               <Loader />
             ) : (
-              users?.documents?.map((user, index) => (
+              users?.documents?.map((user) => (
                 <>
                   <Creator
                     key={`userIndex-${ID.unique()}`}

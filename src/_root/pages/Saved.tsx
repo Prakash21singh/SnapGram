@@ -21,7 +21,10 @@ const Saved = () => {
                 <img src={SavedIcon} alt="savedPost" className="w-8 my-2" />
                 Saved Posts
               </p>
-              <SavedPost posts={posts?.documents} />
+              {
+                //@ts-ignore
+                <SavedPost posts={posts?.documents} />
+              }
             </div>
           </>
         )}

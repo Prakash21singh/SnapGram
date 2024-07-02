@@ -15,6 +15,12 @@
 }
 
 @layer utilities {
+  .invert-yellow {
+    filter: invert(54%) sepia(94%) saturate(748%) hue-rotate(1deg)
+      brightness(105%) contrast(101%);
+  }
+}
+@layer utilities {
   /* TYPOGRAPHY */
   .h1-bold {
     @apply text-[36px] font-bold leading-[140%] tracking-tighter;
@@ -185,6 +191,9 @@
   .saved-container {
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
   }
+  .profile-container {
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
+  }
 
   /* Bottom bar */
   .bottom-bar {
@@ -206,7 +215,7 @@
 
   /* Grid Post List */
   .grid-container {
-    @apply w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl;
+    @apply w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7;
   }
 
   .grid-post_link {
@@ -247,6 +256,10 @@
   /* User card */
   .user-card {
     @apply flex-center flex-col gap-4 border border-dark-4 rounded-[20px] px-5 py-8;
+  }
+
+  .user-profile {
+    @apply flex flex-col items-center justify-center gap-5 lg:flex-row lg:items-start lg:justify-start;
   }
 }
 
