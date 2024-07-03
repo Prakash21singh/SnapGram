@@ -9,8 +9,8 @@ const Saved = () => {
 
   console.log(posts);
   return (
-    <div className="explore-container ">
-      <div className="inner-saved flex items-start justify-start p-5">
+    <div className="explore-container  ">
+      <div className="inner-saved flex items-start justify-start ">
         {isPosts ? (
           <Loader />
         ) : (

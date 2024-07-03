@@ -62,9 +62,10 @@ const Profile = () => {
                   <h3>Following</h3>
                 </div>
               </div>
+              <h3 className="text-light-3 my-2">🌿{user?.bio}</h3>
             </div>
             {currentUser.id === id && (
-              <Link to={`/profile/update/:${id}`}>
+              <Link to={`/update-profile/${id}`}>
                 <div className="flex items-center justify-center gap-2 bg-dark-3 p-2 rounded-lg">
                   <img
                     src="/assets/icons/edit.svg"

@@ -7,10 +7,9 @@ type FileUploaderProps = {
   mediaUrl: string;
 };
 
-const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
+const ImageUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
   const [file, setFile] = useState<File[]>([]);
   const [fileUrl, setFileUrl] = useState(mediaUrl);
-  console.log({ mediaUrl });
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[]) => {
@@ -29,19 +28,20 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
   });
 
   return (
-    <div
-      {...getRootProps()}
-      className="flex flex-center flex-col bg-dark-3 rounded-xl cursor-pointer">
-      <input {...getInputProps()} className="curson-pointer" />
+    <div {...getRootProps()}>
+      <input {...getInputProps()} className="cursor-pointer" />
       {fileUrl ? (
         <>
-          <div className="flex flex-1 justify-center w-full p-5 lg:p-10">
-            <img src={fileUrl} className="file_uploader-img" alt="image" />
+          <div className="flex items-start justify-center lg:justify-start w-full h-full ">
+            <img
+              src={fileUrl}
+              className="w-24 h-24 rounded-full m-2 border-[2px] p-[3px] border-dashed border-primary-500 cursor-pointer object-cover"
+              alt="image"
+            />
           </div>
-          <p className="file_uploader-label">Click or drag photo to replace</p>
         </>
       ) : (
-        <div className="file_uploader-box">
+        <div className="file_uploader-boxa">
           <img
             src="/assets/icons/file-upload.svg"
             width={96}
@@ -59,4 +59,4 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
   );
 };
 
-export default FileUploader;
+export default ImageUploader;
