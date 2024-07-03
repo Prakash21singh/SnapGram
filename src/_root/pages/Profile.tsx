@@ -24,8 +24,6 @@ const Profile = () => {
 
   if (!user) return <Loader />;
 
-  console.log({ likedPosts });
-
   return (
     <div className="profile-container">
       <div className="w-full h-auto">
