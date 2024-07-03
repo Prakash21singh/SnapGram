@@ -467,7 +467,7 @@ export async function getUserLikedPost(userId: string) {
 
     if (!user) throw Error;
 
-    return user.liked;
+    return user;
   } catch (error) {
     console.log(error);
   }
