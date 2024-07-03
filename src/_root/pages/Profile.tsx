@@ -10,7 +10,7 @@ import Loader from "@/components/shared/Loader";
 import { Models } from "appwrite";
 
 const Profile = () => {
-  let { user, isLoading: userLoading } = useUserContext();
+  let { user } = useUserContext();
   let userId = user?.id;
 
   let { data: posts, isPending: isPosts } = useGetUserPost(userId);
