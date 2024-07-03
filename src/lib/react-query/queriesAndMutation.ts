@@ -195,6 +195,9 @@ export const useDeletePost = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_SAVED_POST],
+      });
     },
   });
 };

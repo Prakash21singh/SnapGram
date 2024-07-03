@@ -1,18 +1,32 @@
-import Loader from "@/components/shared/Loader";
 import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutation";
+import {
+  useDeletePost,
+  useGetPostById,
+} from "@/lib/react-query/queriesAndMutation";
 import { formatDateString } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Loader } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const PostsDetails = () => {
   const { id } = useParams();
+  let navigate = useNavigate();
   const { data: post, isPending } = useGetPostById(id || "");
-
+  let { isPending: isPostDeleting, mutateAsync: deletePost } = useDeletePost();
   const { user } = useUserContext();
-  function handleDeletePost() {}
+  async function handleDeletePost(id: string, imageId: string) {
+    let deletedPost = await deletePost({ postId: id, imageId: imageId });
+    if (deletedPost?.status === "ok") {
+      navigate("/");
+    } else {
+      return toast({
+        title: "Something went wrong!! Try again...",
+      });
+    }
+  }
 
   return (
     <div className="post_details-container">
@@ -60,19 +74,28 @@ const PostsDetails = () => {
                     className={`${user.id !== post?.creator.$id && "hidden"}`}
                   />
                 </Link>
-                <Button
-                  variant={"ghost"}
-                  className={`ghost_details-delete_btn ${
-                    user.id !== post?.creator.$id && "hidden"
-                  }`}
-                  onClick={handleDeletePost}>
-                  <img
-                    src="/assets/icons/delete.svg"
-                    alt="delete"
-                    width={24}
-                    height={24}
-                  />
-                </Button>
+                {isPostDeleting ? (
+                  <div className="m-2">
+                    <Loader />
+                  </div>
+                ) : (
+                  <Button
+                    variant={"ghost"}
+                    className={`ghost_details-delete_btn ${
+                      user.id !== post?.creator.$id && "hidden"
+                    }`}
+                    onClick={() => {
+                      // @ts-ignore
+                      handleDeletePost(post?.$id, post?.imageId);
+                    }}>
+                    <img
+                      src="/assets/icons/delete.svg"
+                      alt="delete"
+                      width={24}
+                      height={24}
+                    />
+                  </Button>
+                )}
               </div>
             </div>
 

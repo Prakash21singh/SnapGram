@@ -23,6 +23,7 @@ import {
 import { useUserContext } from "@/context/AuthContext";
 import { toast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "lucide-react";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -161,8 +162,8 @@ const PostFrom = ({ post, action }: PostFormProps) => {
             type="submit"
             className="shad-button_primary whitespace-nowrap"
             disabled={isLoadingUpdate || isLoadingCreate}>
-            {(isLoadingCreate || isLoadingCreate) && "loading..."}
             {action} Post
+            {(isLoadingCreate || isLoadingCreate) && <Loader />}
           </Button>
         </div>
       </form>
