@@ -28,7 +28,7 @@ export async function createUserAccount(user: INewUser) {
 
     return newUser;
   } catch (error) {
-    console.log(error, "appwrite ka erro");
+    console.log(error);
     return error;
   }
 }
