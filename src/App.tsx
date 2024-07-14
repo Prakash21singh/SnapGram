@@ -14,6 +14,8 @@ import {
   Profile,
   Saved,
   UpdateProfile,
+  Message,
+  Chat,
 } from "./_root/pages";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
@@ -38,6 +40,9 @@ const App = () => {
             <Route path="/posts/:id" element={<PostsDetails />} />
             <Route path="/profile/:id*" element={<Profile />} />
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
+            <Route path="/chats" element={<Chat />}>
+              <Route path="/chats/:chatId" element={<Message />} />
+            </Route>
           </Route>
         </Routes>
         <Toaster />

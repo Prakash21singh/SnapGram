@@ -10,7 +10,10 @@ import Creator from "@/components/shared/Creator";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import { ID } from "appwrite";
+import { Link } from "react-router-dom";
+import { useUserContext } from "@/context/AuthContext";
 const Home = () => {
+  let { user } = useUserContext();
   let {
     data: posts,
     isPending: isPostLoading,
@@ -49,7 +52,7 @@ const Home = () => {
         </div>
       </div>
       <div className="home-creators">
-        <div className="creator_box flex flex-col w-full ">
+        <div className="creator_box flex flex-col w-full">
           <h2 className="h3-bold md:h2-bold text-left w-full">Top creators</h2>
           <div className="flex flex-wrap gap-5 items-center justify-center 2xl:justify-start mt-12 w-full">
             {isUsersLoading ? (
