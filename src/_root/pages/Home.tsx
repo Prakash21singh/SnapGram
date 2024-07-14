@@ -10,10 +10,7 @@ import Creator from "@/components/shared/Creator";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import { ID } from "appwrite";
-import { Link } from "react-router-dom";
-import { useUserContext } from "@/context/AuthContext";
 const Home = () => {
-  let { user } = useUserContext();
   let {
     data: posts,
     isPending: isPostLoading,

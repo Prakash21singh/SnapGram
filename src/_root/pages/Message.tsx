@@ -1,5 +1,3 @@
-import { Link, NavLink } from "react-router-dom";
-
 const Message = () => {
   return (
     <div>
