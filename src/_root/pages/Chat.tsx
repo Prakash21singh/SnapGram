@@ -1,9 +1,25 @@
+import UserCard from "@/components/shared/UserCard";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { useSearchUser } from "@/lib/react-query/queriesAndMutation";
+import { Loader } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 const Chat = () => {
   let [searchValue, setSearchValue] = useState("");
+  let debounceValue = useDebounce(searchValue, 200);
+  let {
+    data: searchedUser,
+    refetch,
+    isPending: isSearchingUser,
+    isRefetching,
+  } = useSearchUser(debounceValue);
+
+  useEffect(() => {
+    refetch();
+  }, [searchValue, debounceValue]);
+
   return (
     <div className="leftchatbar">
       <div className="w-[98%] md:max-w-96 flex flex-col items-start ">
@@ -27,22 +43,16 @@ const Chat = () => {
           />
         </div>
         <div className=" flex-1 w-full p-1 overflow-auto custom-scrollbar mt-2">
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
-          <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
+          {searchValue === "" ? (
+            <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
+          ) : isSearchingUser || isRefetching ? (
+            <div className="text-center w-full flex items-center justify-center">
+              <Loader />
+            </div>
+          ) : (
+            // @ts-ignore
+            <UserCard users={searchedUser} />
+          )}
         </div>
       </div>
       <div className="flex-1 bg-dark-3 rounded-lg p-4 hidden md:flex">

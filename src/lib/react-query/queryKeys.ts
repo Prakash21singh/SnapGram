@@ -25,6 +25,7 @@ export enum QUERY_KEYS {
 
   //USER KEYS
   GET_INFINITE_USERS = "getInfiniteUsers",
+  GET_SEARCH_USER = "getSearchedUser",
 
   //LIKED POSTS
   GET_USER_LIKED_POST = "getCurrentUserLikedPost",

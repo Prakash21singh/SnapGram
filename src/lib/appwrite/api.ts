@@ -543,3 +543,17 @@ export async function UpdateUser(user: IUpdateUser) {
     return error;
   }
 }
+
+export const getSearchUsers = async function (searchTerm: string) {
+  try {
+    const users = await databases.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.userCollectionId,
+      [Query.search("name", searchTerm)]
+    );
+    return users;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

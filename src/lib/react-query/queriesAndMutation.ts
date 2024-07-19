@@ -20,6 +20,7 @@ import {
   getRecentPosts,
   getSavedPost,
   getSearchPost,
+  getSearchUsers,
   getTopUsers,
   getUserById,
   getUserLikedPost,
@@ -246,6 +247,13 @@ export const useGetUsers = (number?: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: () => getTopUsers(number),
+  });
+};
+
+export const useSearchUser = (searchTerm: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_SEARCH_USER],
+    queryFn: () => getSearchUsers(searchTerm),
   });
 };
 
