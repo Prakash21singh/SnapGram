@@ -9,10 +9,12 @@ import {
   SignInAccount,
   SignOutAccount,
   UpdateUser,
+  createChat,
   createPost,
   createUserAccount,
   deletePost,
   deleteSavedPost,
+  getActiveChats,
   getCurrentUser,
   getInfinitRecentPosts,
   getInfinitePost,
@@ -276,6 +278,32 @@ export const useUpdateUser = () => {
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
+};
+
+export const useGetActiveChat = (currentUserId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_ACTIVE_CHATS_FOR_USER],
+    queryFn: () => getActiveChats(currentUserId),
+    enabled: !!currentUserId,
+  });
+};
+
+export const useCreateActiveChat = () => {
+  const queryClient = new QueryClient();
+  return useMutation({
+    mutationFn: ({
+      currentUserId,
+      otherUserId,
+    }: {
+      currentUserId: string;
+      otherUserId: string;
+    }) => createChat({ currentUserId, otherUserId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ACTIVE_CHATS_FOR_USER],
       });
     },
   });

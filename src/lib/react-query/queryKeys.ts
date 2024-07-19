@@ -29,4 +29,7 @@ export enum QUERY_KEYS {
 
   //LIKED POSTS
   GET_USER_LIKED_POST = "getCurrentUserLikedPost",
+
+  //CHATS
+  GET_ACTIVE_CHATS_FOR_USER = "getActiveChatsForUser",
 }

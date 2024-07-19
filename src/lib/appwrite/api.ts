@@ -1,6 +1,6 @@
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 import { account, appWriteConfig, avatars, databases, storage } from "./config";
-import { ID, ImageGravity, Query } from "appwrite";
+import { AppwriteException, ID, ImageGravity, Query } from "appwrite";
 
 export async function createUserAccount(user: INewUser) {
   try {
@@ -555,5 +555,63 @@ export const getSearchUsers = async function (searchTerm: string) {
   } catch (error) {
     console.log(error);
     return error;
+  }
+};
+
+export const getActiveChats = async (currentUserID: string) => {
+  try {
+    const allChats = await databases.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.chatCollectionId
+    );
+    console.log({ allChats });
+    const activeChats = allChats.documents.filter((chat) =>
+      //@ts-ignore
+      chat.users.some((user) => user.$id === currentUserID)
+    );
+    return activeChats;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createChat = async ({
+  currentUserId,
+  otherUserId,
+}: {
+  currentUserId: string;
+  otherUserId: string;
+}) => {
+  try {
+    console.log({ currentUserId, otherUserId });
+    const isChatExist = await databases.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.chatCollectionId
+    );
+
+    console.log({ isChatExist });
+
+    let previousChat = isChatExist.documents.find((document) =>
+      document.users.includes(currentUserId)
+    );
+
+    console.log({ previousChat });
+
+    if (previousChat) {
+      return previousChat;
+    }
+
+    const newChat = await databases.createDocument(
+      appWriteConfig.databaseId,
+      appWriteConfig.chatCollectionId,
+      ID.unique(),
+      {
+        users: [currentUserId, otherUserId],
+      }
+    );
+    console.log({ newChat });
+    return newChat;
+  } catch (error) {
+    console.log(error);
   }
 };

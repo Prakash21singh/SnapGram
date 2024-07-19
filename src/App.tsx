@@ -19,6 +19,7 @@ import {
 } from "./_root/pages";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
+import IndexPage from "./_root/pages/indexPage";
 const App = () => {
   return (
     <>
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/profile/:id*" element={<Profile />} />
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
             <Route path="/chats" element={<Chat />}>
+              <Route index element={<IndexPage />} />
               <Route path="/chats/:chatId" element={<Message />} />
             </Route>
           </Route>

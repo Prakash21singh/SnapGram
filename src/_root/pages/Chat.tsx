@@ -1,7 +1,12 @@
+import ActiveChats from "@/components/shared/ActiveChats";
 import UserCard from "@/components/shared/UserCard";
 import { Input } from "@/components/ui/input";
+import { useUserContext } from "@/context/AuthContext";
 import useDebounce from "@/hooks/useDebounce";
-import { useSearchUser } from "@/lib/react-query/queriesAndMutation";
+import {
+  useGetActiveChat,
+  useSearchUser,
+} from "@/lib/react-query/queriesAndMutation";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -9,6 +14,15 @@ import { Outlet } from "react-router-dom";
 const Chat = () => {
   let [searchValue, setSearchValue] = useState("");
   let debounceValue = useDebounce(searchValue, 200);
+  let { user } = useUserContext();
+  let {
+    data: activeChats,
+    refetch: refetchActiveChats,
+    isPending: isActiveChats,
+  } = useGetActiveChat(user?.id);
+
+  console.log({ activeChats });
+
   let {
     data: searchedUser,
     refetch,
@@ -44,20 +58,41 @@ const Chat = () => {
         </div>
         <div className=" flex-1 w-full p-1 overflow-auto custom-scrollbar mt-2">
           {searchValue === "" ? (
-            <p className="w-full p-7 bg-dark-3 rounded-lg mt-1">chat user 1</p>
+            isActiveChats ? (
+              <div className="w-full flex-center">
+                <Loader />
+              </div>
+            ) : activeChats?.length === 0 ? (
+              <div className="w-full h-full flex-center flex-col">
+                <p className="text-light-3 text-sm">No active chats yet</p>
+                <p className="text-light-3 text-lg">Find people for chatting</p>
+                <img
+                  src="/assets/icons/startChat.svg"
+                  alt="startChatIcon"
+                  width={150}
+                  height={150}
+                />
+              </div>
+            ) : (
+              <ActiveChats activeChats={activeChats} />
+            )
           ) : isSearchingUser || isRefetching ? (
             <div className="text-center w-full flex items-center justify-center">
               <Loader />
             </div>
           ) : (
-            // @ts-ignore
-            <UserCard users={searchedUser} />
+            <UserCard
+              // @ts-ignore
+              users={searchedUser?.documents}
+              setSearchField={setSearchValue}
+              searchField={searchValue}
+              refetch={refetchActiveChats}
+            />
           )}
         </div>
       </div>
-      <div className="flex-1 bg-dark-3 rounded-lg p-4 hidden md:flex">
+      <div className="flex-1 bg-dark-3 rounded-lg p-4 hidden md:flex justify-center flex-col items-center">
         <Outlet />
-        sdfkhdsfdjsk
       </div>
     </div>
   );
