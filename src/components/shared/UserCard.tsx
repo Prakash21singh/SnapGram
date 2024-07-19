@@ -7,7 +7,6 @@ import { toast } from "../ui/use-toast";
 
 const UserCard = ({
   users,
-  searchField,
   setSearchField,
   refetch,
 }: {
