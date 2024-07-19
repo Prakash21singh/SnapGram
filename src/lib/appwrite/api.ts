@@ -564,7 +564,6 @@ export const getActiveChats = async (currentUserID: string) => {
       appWriteConfig.databaseId,
       appWriteConfig.chatCollectionId
     );
-    console.log({ allChats });
     const activeChats = allChats.documents.filter((chat) =>
       //@ts-ignore
       chat.users.some((user) => user.$id === currentUserID)

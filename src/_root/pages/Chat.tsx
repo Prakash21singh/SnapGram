@@ -21,8 +21,6 @@ const Chat = () => {
     isPending: isActiveChats,
   } = useGetActiveChat(user?.id);
 
-  console.log({ activeChats });
-
   let {
     data: searchedUser,
     refetch,
