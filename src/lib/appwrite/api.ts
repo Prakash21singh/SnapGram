@@ -1,4 +1,10 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import {
+  INewPost,
+  INewUser,
+  IProfileUser,
+  IUpdatePost,
+  IUpdateUser,
+} from "@/types";
 import { account, appWriteConfig, avatars, databases, storage } from "./config";
 import { ID, ImageGravity, Query } from "appwrite";
 
@@ -498,7 +504,7 @@ export async function UpdateUser(user: IUpdateUser) {
     };
     if (hasFileToUpdate) {
       const uploadedFile = await uploadFile(user.file[0]);
-      console.log({ uploadFile });
+
       if (!uploadedFile) throw Error;
       // Get file url
       const fileUrl = getFilePreview(uploadedFile.$id);
@@ -506,7 +512,6 @@ export async function UpdateUser(user: IUpdateUser) {
         await deleteFile(uploadedFile.$id);
         throw Error;
       }
-      console.log({ fileUrl });
       image = {
         ...image,
         imageUrl: fileUrl,
@@ -536,7 +541,6 @@ export async function UpdateUser(user: IUpdateUser) {
       await deleteFile(user.imageId);
     }
 
-    console.log(updatedUser);
     return updatedUser;
   } catch (error) {
     console.log(error);
@@ -582,24 +586,18 @@ export const createChat = async ({
   otherUserId: string;
 }) => {
   try {
-    console.log({ currentUserId, otherUserId });
     const isChatExist = await databases.listDocuments(
       appWriteConfig.databaseId,
       appWriteConfig.chatCollectionId
     );
 
-    console.log({ isChatExist });
-
     let previousChat = isChatExist.documents.find((document) =>
-      document.users.includes(currentUserId)
+      document.users.find((user: IProfileUser) => user.$id === otherUserId)
     );
-
-    console.log({ previousChat });
 
     if (previousChat) {
       return previousChat;
     }
-
     const newChat = await databases.createDocument(
       appWriteConfig.databaseId,
       appWriteConfig.chatCollectionId,
@@ -608,9 +606,52 @@ export const createChat = async ({
         users: [currentUserId, otherUserId],
       }
     );
-    console.log({ newChat });
     return newChat;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const createMessage = async ({
+  message,
+  chatId,
+  senderId,
+}: {
+  message: string;
+  chatId: string;
+  senderId: string;
+}) => {
+  try {
+    const newmessage = await databases.createDocument(
+      appWriteConfig.databaseId,
+      appWriteConfig.messageCollectionId,
+      ID.unique(),
+      {
+        message,
+        chatId,
+        senderId,
+      }
+    );
+
+    if (!newmessage) throw new Error();
+
+    return newmessage;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getMesssagesByChatId = async ({ chatId }: { chatId: string }) => {
+  try {
+    const messages = await databases.listDocuments(
+      appWriteConfig.databaseId,
+      appWriteConfig.messageCollectionId,
+      [Query.equal("chatId", chatId), Query.orderDesc("$createdAt")]
+    );
+    return messages;
+  } catch (error) {
+    console.log(error);
+    return error;
   }
 };

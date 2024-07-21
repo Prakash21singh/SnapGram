@@ -5,14 +5,16 @@ import { NavLink } from "react-router-dom";
 const ActiveChats = ({ activeChats }) => {
   let { user: currentUser } = useUserContext();
 
-  console.log(activeChats);
   return (
     <div>
       {activeChats?.map(
         //@ts-ignore
         (chat) => (
           <NavLink
-            to={`/chats/${chat.$id}`}
+            to={`/chats/${chat.$id}/${
+              // @ts-ignore
+              chat?.users?.find((user) => user?.$id !== currentUser.id)?.$id
+            }`}
             className={({ isActive }) =>
               `cursor-pointer flex-1 w-full p-5 overflow-auto custom-scrollbar mt-2 flex items-center justify-start gap-2   border-b-[0.5px] border-dark-4 ${
                 isActive && "bg-dark-2"

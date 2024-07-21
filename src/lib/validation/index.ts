@@ -29,3 +29,9 @@ export const ProfileValidation = z.object({
   email: z.string().email({ message: "Invalid email format" }),
   bio: z.string(),
 });
+
+export const MessageValidation = z.object({
+  chatId: z.string(),
+  senderId: z.string(),
+  content: z.string(),
+});

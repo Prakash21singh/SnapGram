@@ -49,7 +49,6 @@ const UpdateProfile = () => {
   let { mutateAsync: updateUser, isPending: isUserUpdated } = useUpdateUser();
 
   async function onSubmit(values: z.infer<typeof ProfileValidation>) {
-    console.log({ currentUser });
     const updatedUser = await updateUser({
       //@ts-ignore
       userId: currentUser?.$id,
@@ -66,7 +65,6 @@ const UpdateProfile = () => {
       });
     }
 
-    console.log({ updateUser });
     setUser({
       ...user,
       // @ts-ignore

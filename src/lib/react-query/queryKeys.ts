@@ -32,4 +32,7 @@ export enum QUERY_KEYS {
 
   //CHATS
   GET_ACTIVE_CHATS_FOR_USER = "getActiveChatsForUser",
+
+  //MESSAGE
+  GET_MESSAGE_BY_CHATID = "getMessagesByChatId",
 }

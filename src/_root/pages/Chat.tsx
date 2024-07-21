@@ -34,7 +34,7 @@ const Chat = () => {
 
   return (
     <div className="leftchatbar">
-      <div className="w-[98%] md:max-w-96 flex flex-col items-start ">
+      <div className=" flex flex-col items-start custom-scrollbar w-full md:flex-1 h-full">
         <h2 className="flex items-center justify-start text-3xl h3-bold md:h2-bold text-left gap-3 mb-4">
           <img
             src="/assets/icons/chat.svg"
@@ -89,7 +89,7 @@ const Chat = () => {
           )}
         </div>
       </div>
-      <div className="flex-1 bg-dark-3 rounded-lg p-4 hidden md:flex justify-center flex-col items-center">
+      <div className=" p-2 hidden  md:flex justify-center flex-col items-center overflow-hidden w-full ">
         <Outlet />
       </div>
     </div>

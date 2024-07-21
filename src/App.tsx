@@ -20,7 +20,9 @@ import {
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
 import IndexPage from "./_root/pages/indexPage";
+import { useMediaQuery } from "react-responsive";
 const App = () => {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   return (
     <>
       <main className="flex h-screen">
@@ -41,10 +43,17 @@ const App = () => {
             <Route path="/posts/:id" element={<PostsDetails />} />
             <Route path="/profile/:id*" element={<Profile />} />
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
-            <Route path="/chats" element={<Chat />}>
-              <Route index element={<IndexPage />} />
-              <Route path="/chats/:chatId" element={<Message />} />
-            </Route>
+            {!isMobile ? (
+              <Route path="/chats" element={<Chat />}>
+                <Route index element={<IndexPage />} />
+                <Route path="/chats/:chatId/:userId" element={<Message />} />
+              </Route>
+            ) : (
+              <Route path="/chats">
+                <Route index element={<Chat />} />
+                <Route path="/chats/:chatId/:userId" element={<Message />} />
+              </Route>
+            )}
           </Route>
         </Routes>
         <Toaster />

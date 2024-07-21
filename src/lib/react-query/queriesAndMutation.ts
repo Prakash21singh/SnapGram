@@ -10,6 +10,7 @@ import {
   SignOutAccount,
   UpdateUser,
   createChat,
+  createMessage,
   createPost,
   createUserAccount,
   deletePost,
@@ -18,6 +19,7 @@ import {
   getCurrentUser,
   getInfinitRecentPosts,
   getInfinitePost,
+  getMesssagesByChatId,
   getPostById,
   getRecentPosts,
   getSavedPost,
@@ -31,7 +33,13 @@ import {
   savePost,
   updatePost,
 } from "../appwrite/api";
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import {
+  INewPost,
+  INewUser,
+  IUpdatePost,
+  IUpdateUser,
+  IMessage,
+} from "@/types";
 import { QUERY_KEYS } from "./queryKeys";
 import { Models } from "appwrite";
 
@@ -306,5 +314,25 @@ export const useCreateActiveChat = () => {
         queryKey: [QUERY_KEYS.GET_ACTIVE_CHATS_FOR_USER],
       });
     },
+  });
+};
+
+export const useCreateMessage = () => {
+  const queryClient = new QueryClient();
+  return useMutation({
+    mutationFn: ({ message, chatId, senderId }: IMessage) =>
+      createMessage({ message, chatId, senderId }),
+    onSuccess(chat: any) {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MESSAGE_BY_CHATID, chat.$id],
+      });
+    },
+  });
+};
+
+export const useGetMessages = ({ chatId }: { chatId: string }) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MESSAGE_BY_CHATID],
+    queryFn: () => getMesssagesByChatId({ chatId }),
   });
 };

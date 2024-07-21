@@ -46,3 +46,24 @@ export type INewUser = {
   email: string;
   password: string;
 };
+
+export type IProfileUser = {
+  $id: string;
+  imageUrl: string;
+  username: string;
+  name: string;
+};
+
+export type IMessage = {
+  chatId: string;
+  senderId: string;
+  message: string;
+};
+
+export type ICreatedMessage = {
+  $id: string;
+  message: string;
+  senderId: {
+    $id: string;
+  };
+};

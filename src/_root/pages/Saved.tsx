@@ -7,7 +7,6 @@ const Saved = () => {
   let { user } = useUserContext();
   let { data: posts, isPending: isPosts } = useGetSavedPost(user.id);
 
-  console.log(posts);
   return (
     <div className="explore-container  ">
       <div className="inner-saved flex items-start justify-start ">

@@ -238,7 +238,7 @@
   }
 
   .leftchatbar {
-    @apply md:flex gap-5 px-4 py-10  min-w-[350px] w-full bg-dark-1 overflow-auto custom-scrollbar;
+    @apply gap-5 px-4 py-10  w-full md:flex bg-dark-1 overflow-auto custom-scrollbar;
   }
   .leftsidebar-link {
     @apply rounded-lg base-medium hover:bg-primary-500 transition;
@@ -249,6 +249,18 @@
     @apply bg-dark-2 rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm;
   }
 
+  .sender {
+    @apply self-end border bg-indigo-400 border-dark-4 p-5 rounded-3xl max-w-[90%] flex flex-col;
+  }
+  .time {
+    @apply self-end text-xs text-light-4;
+  }
+  .reciever {
+    @apply self-start border bg-dark-2 border-dark-4 p-5 rounded-3xl max-w-[90%] flex flex-col;
+  }
+  .message-card {
+    @apply bg-dark-2 rounded-3xl border border-dark-4 p-5 w-full h-full;
+  }
   .creator-card {
     @apply bg-dark-2 rounded-3xl border border-dark-4 p-5;
   }

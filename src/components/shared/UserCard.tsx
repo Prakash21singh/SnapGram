@@ -26,7 +26,7 @@ const UserCard = ({
     })
       .then((chat) => {
         setSearchField("");
-        navigate(`/chats/${chat?.$id}`);
+        navigate(`/chats/${chat?.$id}/${userId}`);
         refetch();
       })
       .catch((error) => {
