@@ -34,7 +34,7 @@ const Chat = () => {
 
   return (
     <div className="leftchatbar">
-      <div className="flex flex-col items-start custom-scrollbar w-full md:flex-1 md:min-w-96  h-full">
+      <div className="flex flex-col items-start custom-scrollbar w-full md:flex-1 md:min-w-96  h-full border-r-2 pr-2 border-dark-3 bg-dark-1">
         <h2 className="flex items-center justify-start text-3xl h3-bold md:h2-bold text-left gap-3 mb-4">
           <img
             src="/assets/icons/chat.svg"
