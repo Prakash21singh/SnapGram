@@ -73,14 +73,16 @@ const Message = () => {
             "databases.*.collections.*.documents.*.create"
           )
         ) {
+          console.log(response.payload);
           // @ts-ignore
-          if (response.payload.chatId === chatId) {
+          if (response.payload.chatId.$id === chatId) {
             // @ts-ignore
             setMessages((prevValue) => [response.payload, ...prevValue]);
           }
         }
       }
     );
+
     return () => {
       unsubscribe();
     };
