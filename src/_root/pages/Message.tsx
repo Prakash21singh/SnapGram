@@ -73,7 +73,7 @@ const Message = () => {
             "databases.*.collections.*.documents.*.create"
           )
         ) {
-          console.log(response.payload);
+          console.log(response.payload, "EVENt");
           // @ts-ignore
           if (response.payload.chatId.$id === chatId) {
             // @ts-ignore
@@ -105,7 +105,7 @@ const Message = () => {
       message: values.content,
       senderId: currentuser || values.senderId,
     })
-      .then(() => {
+      .then((creation) => {
         form.reset();
       })
       .catch((error) => {

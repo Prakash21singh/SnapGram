@@ -635,6 +635,7 @@ export const createMessage = async ({
 
     if (!newmessage) throw new Error();
 
+    console.log({ newmessage });
     return newmessage;
   } catch (error) {
     console.log(error);
