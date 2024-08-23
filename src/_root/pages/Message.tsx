@@ -105,7 +105,7 @@ const Message = () => {
       message: values.content,
       senderId: currentuser || values.senderId,
     })
-      .then((creation) => {
+      .then(() => {
         form.reset();
       })
       .catch((error) => {
